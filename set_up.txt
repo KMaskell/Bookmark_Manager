@@ -1,0 +1,8 @@
+_To create Gem file:_ `bundle init`
+    then add dependencies using `gem 'spec'` for example gem 'capybara'
+    then run `bundle install` to install those dependencies
+
+to create a
+spec/spec_helper.rb and
+.rspec file
+Run `rspec —init`
