@@ -9,10 +9,17 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/bookmarks' do
-    p ENV
-    
     @bookmarks = Bookmark.all
     erb :bookmarks
+  end
+
+  get '/bookmarks/new' do
+    erb :"bookmarks/new"
+  end
+
+  post '/bookmarks' do
+    p "Form data submitted to the /bookmarks route!"
+    p params
   end
 
   run! if app_file == $PROGRAM_NAME
