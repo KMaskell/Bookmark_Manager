@@ -43,4 +43,18 @@ describe Bookmark do
       # expect(bookmark.url).to eq 'http://www.testbookmark.com'
     end
   end
+
+  describe '.delete' do
+    it 'deletes a bookmark' do
+
+      Bookmark.create(bookmark.url, bookmark.title)
+      Bookmark.delete(bookmark.title)
+
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+      results = connection.exec('SELECT * FROM bookmarks;')
+
+      expect(results.to_a).to be_empty
+      
+    end
+  end
 end
