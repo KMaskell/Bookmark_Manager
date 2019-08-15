@@ -1,5 +1,5 @@
 require_relative 'database_connection'
-#require 'setup_test_database'
+# require 'setup_test_database'
 require 'uri'
 
 class Bookmark
@@ -16,6 +16,7 @@ class Bookmark
 
   def self.create(url:, title:)
     return false unless is_url?(url)
+
     result = DatabaseConnection.query("INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}') RETURNING id, title, url;")
     Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
   end
@@ -43,6 +44,10 @@ class Bookmark
         url: bookmark['url']
       )
     end
+  end
+
+  def comments
+    DatabaseConnection.query("SELECT * FROM comments WHERE bookmark_id = #{id};")
   end
 
   attr_reader :id, :title, :url

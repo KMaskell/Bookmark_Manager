@@ -1,15 +1,10 @@
-# frozen_string_literal: true
-
 require 'bookmark'
 require 'database_helpers'
 
 describe Bookmark do
-  # let(:bookmark) { double('bookmark', url: 'http://www.testbookmark.com', title: 'Test Bookmark') }
-
+  
   describe '.all' do
     it 'returns a list of bookmarks' do
-      # connection = PG.connect(dbname: 'bookmark_manager_test')
-      # connection.exec("INSERT INTO bookmarks (title, url) VALUES('Google')
 
       bookmark = Bookmark.create(url: 'http://www.google.com', title: 'Google')
       Bookmark.create(url: 'http://www.lwlies.com', title: 'Little White Lies')
@@ -61,4 +56,14 @@ describe Bookmark do
       expect(result.url).to eq 'http://www.google.com'
     end
   end
+
+  describe '#comments' do
+    it 'returns a list of comments on the bookmark' do
+      bookmark = Bookmark.create(title: 'Makers Academy', url: 'http://www.makersacademy.com')
+      DatabaseConnection.query("INSERT INTO comments (id, text, bookmark_id) VALUES(1, 'Test comment', #{bookmark.id})")
+  
+      comment = bookmark.comments.first
+  
+      expect(comment['text']).to eq 'Test comment'
+    end
 end

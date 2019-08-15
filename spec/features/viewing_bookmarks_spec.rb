@@ -1,8 +1,3 @@
-# frozen_string_literal: true
-
-# require 'pg'
-# require 'bookmark'
-
 feature 'Viewing bookmarks' do
   feature 'visiting the homepage' do
     scenario 'the page title is visible' do
