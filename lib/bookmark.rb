@@ -26,7 +26,12 @@ class Bookmark
 
   def self.delete(title)
     connection = select_env
-    connection.exec("DELETE FROM bookmarks WHERE title = '#{title}'")
+    connection.exec("DELETE FROM bookmarks WHERE title = '#{title}';")
+  end
+
+  def self.delete(id:)
+    connection = select_env
+    connection.exec("DELETE FROM bookmarks WHERE ID = #{id};")
   end
 
   # def self.is_url?(url)
