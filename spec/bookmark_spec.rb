@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+# frozen_string_literal: true
+require 'uri'
+>>>>>>> 975ea1a791dae04ebce39b850c4a76bd92c62a40
 require 'bookmark'
 require 'database_helpers'
 
@@ -29,6 +34,11 @@ describe Bookmark do
       expect(bookmark.id).to eq persisted_data.first['id']
       expect(bookmark.title).to eq 'Test Bookmark'
       expect(bookmark.url).to eq 'http://www.testbookmark.com'
+    end
+
+    it 'does not create a new bookmark if the URL is not valid' do
+      bookmark = Bookmark.create(url: 'not a real bookmark', title: 'not a real bookmark')
+      expect(bookmark).not_to be_a Bookmark
     end
   end
 

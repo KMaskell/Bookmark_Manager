@@ -7,3 +7,4 @@ gem 'pg'
 gem 'rspec', group: :test
 gem 'rubocop', require: false
 gem 'sinatra'
+gem 'sinatra-flash'

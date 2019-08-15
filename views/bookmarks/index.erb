@@ -6,6 +6,7 @@
     <form action="/bookmarks/<%= bookmark.id %>" method="post">
       <input type='hidden' name='_method' value='DELETE'/>
       <input type="submit" value="Delete" />
+<<<<<<< HEAD
     </form>
     <form action="/bookmarks/<%= bookmark.id %>/edit" method="get">
       <input type="submit" value="Edit" />
@@ -19,3 +20,15 @@
 <% end %>
 
   <%= flash[:notice] %>
+=======
+      </form>
+      <form action="/bookmarks/<%= bookmark.id %>/edit" method="get">
+        <input type="submit" value="Edit" />
+        </form>
+    </li>
+  <% end %>
+</ul>
+<p>
+  <%= flash[:notice] %>
+</p>
+>>>>>>> 975ea1a791dae04ebce39b850c4a76bd92c62a40
