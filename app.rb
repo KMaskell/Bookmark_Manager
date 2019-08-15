@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require './lib/bookmark'
+require './database_connection_setup'
 
 class BookmarkManager < Sinatra::Base
   enable :sessions, :method_override
@@ -36,5 +37,5 @@ class BookmarkManager < Sinatra::Base
     redirect('/bookmarks')
   end
 
-  run! if app_file == $0
+  run! if app_file == $PROGRAM_NAME
 end
