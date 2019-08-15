@@ -1,5 +1,4 @@
 require 'bookmark'
-#require 'pg'
 require 'database_helpers'
 
 describe Bookmark do
@@ -7,7 +6,7 @@ describe Bookmark do
 
   describe '.all' do
     it 'returns a list of bookmarks' do
-      connection = PG.connect(dbname: 'bookmark_manager_test')
+      # connection = PG.connect(dbname: 'bookmark_manager_test')
       # connection.exec("INSERT INTO bookmarks (title, url) VALUES('Google')
 
       bookmark = Bookmark.create(url: "http://www.google.com", title: "Google")
@@ -33,6 +32,31 @@ describe Bookmark do
       expect(bookmark.id).to eq persisted_data.first['id']
       expect(bookmark.title).to eq "Test Bookmark"
       expect(bookmark.url).to eq "http://www.testbookmark.com"
+    end
+  end
+
+  describe '.update' do
+    it 'updates the bookmark with the given data' do
+      bookmark = Bookmark.create(title: 'Google', url: "http://www.google.com")
+      updated_bookmark = Bookmark.update(id: bookmark.id, url: "http://www.bbcweather.co.uk", title: 'BBC Weather')
+
+      expect(updated_bookmark).to be_a Bookmark
+      expect(updated_bookmark.id).to eq bookmark.id
+      expect(updated_bookmark.title).to eq 'BBC Weather'
+      expect(updated_bookmark.url).to eq 'http://www.bbcweather.co.uk'
+    end
+  end
+
+  describe '.find' do
+    it 'returns the requested bookmark object' do
+      bookmark = Bookmark.create(title: 'Google', url: "http://www.google.com")
+
+      result = Bookmark.find(id: bookmark.id)
+
+      expect(result).to be_a Bookmark
+      expect(result.id).to eq bookmark.id
+      expect(result.title).to eq 'Google'
+      expect(result.url).to eq "http://www.google.com"
     end
   end
 end

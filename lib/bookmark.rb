@@ -34,6 +34,18 @@ class Bookmark
     connection.exec("DELETE FROM bookmarks WHERE ID = #{id};")
   end
 
+  def self.update(id:, title:, url:)
+    connection = select_env
+    result = connection.exec("UPDATE bookmarks SET url = '#{url}', title = '#{title}' WHERE id = #{id} RETURNING id, title, url;")
+    Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
+  end
+
+  def self.find(id:)
+    connection = select_env
+    result = connection.exec("SELECT * FROM bookmarks WHERE id = #{id};")
+    Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
+  end
+  
   # def self.is_url?(url)
   #   url
   # end
