@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
 require 'pg'
 
 class Bookmark
   attr_reader :id, :title, :url
 
-  def initialize(id, title, url)
+  def initialize(id:, title:, url:)
     @id = id
     @title = title
     @url = url
@@ -13,23 +11,17 @@ class Bookmark
 
   def self.all
     connection = select_env
-
-    result = connection.exec('SELECT * FROM bookmarks;')
-    bookmarks = []
-    result.each do |bookmark|
-      bookmarks << Bookmark.new(bookmark['id'], bookmark['title'], bookmark['url'])
+    result = connection.exec("SELECT * FROM bookmarks")
+    result.map do |bookmark|
+      Bookmark.new(id: bookmark['id'], title: bookmark['title'], url: bookmark['url'])
     end
-    bookmarks
   end
 
-  def self.create(url, title)
-    return false unless is_url?(url)
-
+  def self.create(title:, url:)
+    # return false unless is_url?(url)
     connection = select_env
-
-    result = connection.exec("INSERT INTO bookmarks (title, url) VALUES('#{title}', '#{url}') RETURNING id, url, title")
-    # Bookmark.new(result[0]['id'], result[0]['title'], result[0]['url'])
-    result
+    result = connection.exec("INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}') RETURNING id, title, url;")
+    Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
   end
 
   def self.delete(title)
@@ -37,9 +29,9 @@ class Bookmark
     connection.exec("DELETE FROM bookmarks WHERE title = '#{title}'")
   end
 
-  def self.is_url?(url)
-    url
-  end
+  # def self.is_url?(url)
+  #   url
+  # end
 
   private
 

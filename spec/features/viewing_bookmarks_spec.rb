@@ -1,25 +1,16 @@
-# frozen_string_literal: true
-
-require 'pg'
-require 'bookmark'
+# require 'pg'
+# require 'bookmark'
 
 feature 'Viewing bookmarks' do
-  scenario 'visiting the homepage' do
-    visit('/')
-    expect(page).to have_content 'Bookmark Manager'
-  end
-end
+  scenario 'bookmarks are visible' do
+    Bookmark.create(url: "http://www.google.com", title: 'Google')
+    Bookmark.create(url: "http://www.lwlies.com", title: 'Little White Lies')
+    Bookmark.create(url: "http://www.ocado.com", title: 'Ocado')
 
-feature 'viewing bookmarks' do
-  scenario 'view bookmarks list' do
-    Bookmark.create('http://www.google.com', 'Google')
-    Bookmark.create('http://www.lwlies.com', 'Little White Lies')
-    Bookmark.create('http://www.ocado.com', 'Ocado')
+    visit('/bookmarks')
 
-    visit '/bookmarks'
-
-    expect(page).to have_link 'Google', href: 'http://www.google.com'
-    expect(page).to have_link 'Little White Lies', href: 'http://www.lwlies.com'
-    expect(page).to have_link 'Ocado', href: 'http://www.ocado.com'
+    expect(page).to have_link('Google', href: "http://www.google.com")
+    expect(page).to have_link('Little White Lies', href: "http://www.lwlies.com")
+    expect(page).to have_link('Ocado', href: "http://www.ocado.com")
   end
 end

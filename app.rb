@@ -1,10 +1,8 @@
-# frozen_string_literal: true
-
 require 'sinatra/base'
 require './lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
-  enable :sessions
+  #enable :sessions
   get '/' do
     'Bookmark Manager'
   end
@@ -18,8 +16,8 @@ class BookmarkManager < Sinatra::Base
     erb :"bookmarks/new"
   end
 
-  post '/bookmarks/new' do
-    Bookmark.create(params[:url], params[:title])
+  post '/bookmarks' do
+    Bookmark.create(url: params[:url], title: params[:title])
     redirect '/bookmarks'
   end
 
