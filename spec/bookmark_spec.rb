@@ -1,16 +1,12 @@
-<<<<<<< HEAD
-=======
 # frozen_string_literal: true
+
 require 'uri'
->>>>>>> 975ea1a791dae04ebce39b850c4a76bd92c62a40
 require 'bookmark'
 require 'database_helpers'
 
 describe Bookmark do
-  
   describe '.all' do
     it 'returns a list of bookmarks' do
-
       bookmark = Bookmark.create(url: 'http://www.google.com', title: 'Google')
       Bookmark.create(url: 'http://www.lwlies.com', title: 'Little White Lies')
       Bookmark.create(url: 'http://ocado.com', title: 'Ocado')
@@ -67,13 +63,14 @@ describe Bookmark do
     end
   end
 
+  let(:comment_class) { double(:comment_class) }
+
   describe '#comments' do
-    it 'returns a list of comments on the bookmark' do
+    it 'calls .where on the Comment class' do
       bookmark = Bookmark.create(title: 'Makers Academy', url: 'http://www.makersacademy.com')
-      DatabaseConnection.query("INSERT INTO comments (id, text, bookmark_id) VALUES(1, 'Test comment', #{bookmark.id})")
-  
-      comment = bookmark.comments.first
-  
-      expect(comment['text']).to eq 'Test comment'
+      expect(comment_class).to receive(:where).with(bookmark_id: bookmark.id)
+
+      bookmark.comments(comment_class)
     end
+  end
 end

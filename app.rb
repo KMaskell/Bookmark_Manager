@@ -1,31 +1,31 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
-require './lib/bookmark'
-require './database_connection_setup'
-<<<<<<< HEAD
-require './lib/comment'
-=======
-require 'uri'
 require 'sinatra/flash'
->>>>>>> 975ea1a791dae04ebce39b850c4a76bd92c62a40
+require 'uri'
+require_relative './lib/bookmark'
+require_relative './lib/comment'
+require_relative './database_connection_setup'
 
 class BookmarkManager < Sinatra::Base
   enable :sessions, :method_override
   register Sinatra::Flash
+
   get '/' do
     'Bookmark Manager'
   end
 
   get '/bookmarks' do
     @bookmarks = Bookmark.all
-    erb :"bookmarks/index"
+    erb :'bookmarks/index'
   end
 
   get '/bookmarks/new' do
-    erb :"bookmarks/new"
+    erb :'bookmarks/new'
   end
 
   post '/bookmarks' do
-    flash[:notice] = "You must submit a valid URL" unless Bookmark.create(url: params[:url], title: params[:title])
+    flash[:notice] = 'Please submit a valid URL' unless Bookmark.create(url: params[:url], title: params[:title])
     redirect '/bookmarks'
   end
 
@@ -36,7 +36,7 @@ class BookmarkManager < Sinatra::Base
 
   get '/bookmarks/:id/edit' do
     @bookmark = Bookmark.find(id: params[:id])
-    erb :'bookmarks/edit'
+    erb :"bookmarks/edit"
   end
 
   patch '/bookmarks/:id' do
